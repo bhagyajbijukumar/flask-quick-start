@@ -15,6 +15,3 @@ def add(id,name):
     db.session.commit()
     return "user added"
 
-@user.route("/test")
-def test():
-    a = 2
