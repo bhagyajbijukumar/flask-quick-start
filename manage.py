@@ -20,5 +20,14 @@ def createsuperuser():
     password = getpass.getpass("Enter password: ")
     userhelpers.create_user(username=username,email=email,password=password,verified=True)
 
+def create_user():
+    from helpers import userhelpers
+    import getpass
+    username = input("Enter username: ")
+    email = input("Enter email: ")
+    password = getpass.getpass("Enter password: ")
+    userhelpers.create_user(username=username,email=email,password=password,verified=True,is_staff=False)
+
+
 if __name__ == '__main__':
     globals()[sys.argv[1]]()

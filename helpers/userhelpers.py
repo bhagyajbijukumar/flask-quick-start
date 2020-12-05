@@ -10,6 +10,6 @@ def create_user(username, email, password, verified=False, is_staff=False):
     hashed=bcrypt.hashpw(pwd, salt)
     
     with app.app_context():
-        user = User(username=username, email=email, password=hashed, verified=verified, is_staff=True)
+        user = User(username=username, email=email, password=hashed, verified=verified, is_staff=False)
         db.session.add(user)
         db.session.commit()

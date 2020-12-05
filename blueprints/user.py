@@ -8,10 +8,8 @@ user = Blueprint("user", __name__)
 def home():
     return render_template("index.html")
 
-@user.route("/add/<id>/<name>")
-def add(id,name):
-    user = User(id=id,name=name)
-    db.session.add(user)
-    db.session.commit()
-    return "user added"
+
+@user.route("/signup/")
+def signup():
+    return render_template("signup.html")
 
