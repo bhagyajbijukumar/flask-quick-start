@@ -5,6 +5,7 @@ from models import *
 
 
 app = create_app(config_file="config.cfg")
+migrate = Migrate(app,db)
 
 manager = Manager(app)
 manager.add_command("db", MigrateCommand)
