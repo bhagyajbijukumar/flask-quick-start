@@ -40,7 +40,7 @@
           {% if user %}
           <a class="dropdown-item" href="#">Logout</a>
           {% else %}
-          <a class="dropdown-item" href="#">Login</a>
+          <a class="dropdown-item" href="{{url_for("user.login")}}">Login</a>
           <a class="dropdown-item" href="{{url_for("user.signup")}}">Signup</a>
           {% endif %}
           

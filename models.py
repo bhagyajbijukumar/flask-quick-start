@@ -7,3 +7,4 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     is_staff = db.Column(db.Integer, default=0, nullable = False)
     verified = db.Column(db.Boolean, default=False)
+    token = db.Column(db.String(120), nullable=False, unique = True)
