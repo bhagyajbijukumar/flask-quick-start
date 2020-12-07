@@ -1,12 +1,15 @@
-from flask import Blueprint, render_template, request, redirect, session
+from flask import Blueprint, render_template, request, redirect, session, render_template_string
 from models import User
 from extensions import db
 from helpers.userhelpers import create_user, login as login_
 import sqlalchemy
 
+from helpers.userhelpers import login_required, current_user
+
 user = Blueprint("user", __name__)
 
 @user.route("/")
+@login_required
 def home():
     return render_template("index.html")
 
@@ -20,12 +23,12 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
         try:
-            user = create_user(username=username, email=email, password=password,verified=True)
+            token = create_user(username=username, email=email, password=password,verified=True)
         except sqlalchemy.exc.IntegrityError:
             return "User already exists"
 
-        session["user"] = user
-        return "User created"
+        session["user"] = token
+        return render_template_string("User created {{session['user']}}")
 
 
 @user.route("/login", methods=["GET","POST"])
@@ -35,9 +38,9 @@ def login():
     elif request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        user = login_(email, password)
-        if user:
-            session["user"] = "user"
+        token = login_(email, password)
+        if token:
+            session["user"] = token
             return redirect("/")
         else:
             return "invalid params"
