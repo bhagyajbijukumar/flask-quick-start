@@ -41,17 +41,20 @@ def validate_token(token):
     if user:
         return user
     else:
-        return False
+        return None
 
 
 
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        user = None
         if "user" in session.keys():
             token = session["user"]
             user = validate_token(token)
         else:
+            return redirect(url_for('user.login', next=request.url))
+        if not user:
             return redirect(url_for('user.login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
