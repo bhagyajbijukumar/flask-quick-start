@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, session, render_template_string
+from flask import Blueprint, render_template, request, redirect, session, render_template_string, url_for
 from models import User
 from extensions import db
-from helpers.userhelpers import create_user, login as login_
+from helpers.userhelpers import create_user, login as login_, current_user
 import sqlalchemy
 
 from helpers.userhelpers import login_required, current_user
@@ -11,7 +11,8 @@ user = Blueprint("user", __name__)
 @user.route("/")
 @login_required
 def home():
-    return render_template("index.html")
+    user = current_user()
+    return render_template("index.html", user=user)
 
 
 @user.route("/signup/", methods=["GET","POST"])
@@ -28,7 +29,7 @@ def signup():
             return "User already exists"
 
         session["user"] = token
-        return render_template_string("User created {{session['user']}}")
+        return redirect(url_for("user.home"))
 
 
 @user.route("/login", methods=["GET","POST"])
@@ -41,10 +42,12 @@ def login():
         token = login_(email, password)
         if token:
             session["user"] = token
-            return redirect("/")
+            return redirect(url_for("user.home"))
         else:
             return "invalid params"
 
-
-        
+@user.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect(url_for("user.home"))
 

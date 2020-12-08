@@ -62,4 +62,5 @@ def login_required(f):
 def current_user():
     token = session["user"]
     user = validate_token(token)
+    print(user)
     return user
