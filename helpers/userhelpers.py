@@ -64,3 +64,18 @@ def current_user():
     user = validate_token(token)
     print(user)
     return user
+
+def admin_required():
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        user = None
+        if "user" in session.keys():
+            token = session["user"]
+            user = validate_token(token)
+            if user.is_staff:
+                return True
+        else:
+            return abort(404)
+        if not user:
+            return abort(404)
+    return decorated_function
