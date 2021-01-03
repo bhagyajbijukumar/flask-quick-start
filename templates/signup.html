@@ -11,19 +11,27 @@
         </div>
         <div class="card-body">
             <form action="" , method="POST">
+                {{form.csrf_token}}
+
                 <div class="form-group">
-                    <label></label>Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                {{form.username.label}}</br>
+                {{form.username(class_="form-control", placeholder="username")}}
+                </div>
+
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {{form.email(class_="form-control", placeholder="Email id")}}
                 </div>
                 <div class="form-group">
-                    <label>Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Email ">
+                    {{form.password.label}}
+                    {{form.password(class_="form-control", placeholder="password")}}
                 </div>
+
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    {{form.confirm_password.label}}
+                    {{form.confirm_password(class_="form-control", placeholder="confirm password")}}
                 </div>
-                <input class="btn btn-primary" type="submit" value="Submit">
+                {{form.submit(class_="btn btn-primary")}}
                 <a href="{{ url_for("user.login") }}"><u>Already have an account? Signin</u></a>
             </form>
         </div>

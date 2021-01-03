@@ -3,6 +3,7 @@ from models import User
 from extensions import db
 from helpers.userhelpers import create_user, login as login_, current_user
 import sqlalchemy
+from forms import SignUpForm
 
 from helpers.userhelpers import login_required, current_user
 
@@ -18,7 +19,8 @@ def home():
 @user.route("/signup/", methods=["GET","POST"])
 def signup():
     if request.method == 'GET':
-        return render_template("signup.html")
+        form = SignUpForm()
+        return render_template("signup.html", form=form)
     elif request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
